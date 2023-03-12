@@ -1,11 +1,11 @@
 #include <iostream>
 #include <vector>
 #include <ctime>
-
+#include <cstdlib>
 
 using namespace std;
 
-void low(int O){
+void sequental_int_low(int O){
     clock_t start = clock(); // start
 
     vector<vector<int>> A(O, vector<int>(O));
@@ -32,10 +32,14 @@ void low(int O){
     clock_t end = clock(); // stop
     
     double time = double(end - start) / CLOCKS_PER_SEC;
-    cout << "Total time with 500x500 metrix - sequental: " << time << "s." << endl;
+    
+    cout << "-------------------------" << endl;
+    cout << "-------  INTEGER  -------" << endl;
+    cout << "-------------------------" << endl;
+    cout << "Total time with integer 500x500 metrix - sequental: " << time << "s." << endl;
 }
 
-void medium(int P){
+void sequental_int_medium(int P){
     clock_t start = clock(); // start
 
     vector<vector<int>> A(P, vector<int>(P));
@@ -60,10 +64,10 @@ void medium(int P){
     clock_t end = clock(); // stop
     
     double time = double(end - start) / CLOCKS_PER_SEC;
-    cout << "Total time with 1000x1000 metrix - sequental: " << time << "s." << endl;
+    cout << "Total time with integer 1000x1000 metrix - sequental: " << time << "s." << endl;
 }
 
-void hard(int N){
+void sequental_int_hard(int N){
     clock_t start = clock(); // start
 
     vector<vector<int>> A(N, vector<int>(N));
@@ -88,7 +92,101 @@ void hard(int N){
     clock_t end = clock(); // stop
     
     double time = double(end - start) / CLOCKS_PER_SEC;
-    cout << "Total time with 2000x2000 metrix - sequental: " << time << "s." << endl;
+    cout << "Total time with integer 2000x2000 metrix - sequental: " << time << "s." << endl;
+    cout << "================================" << endl;
+
+}
+
+void sequental_float_low(int O){
+    clock_t start = clock(); // start
+
+    vector<vector<float>> A(O, vector<float>(O));
+    vector<vector<float>> B(O, vector<float>(O));
+    vector<vector<float>> C(O, vector<float>(O));
+
+    //create metrix 
+    for (int i = 0; i < O; i++) {
+        for (int j = 0; j < O; j++) {
+            A[i][j] = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
+            B[i][j] = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
+        }
+    }
+
+    // matrix multiplication
+    for (int i = 0; i < O; i++) {
+        for (int j = 0; j < O; j++) {
+            for (int k = 0; k < O; k++) {
+                C[i][j] += A[i][k] * B[k][j];
+            }
+        }
+    }
+    
+    clock_t end = clock(); // stop
+    
+    double time = double(end - start) / CLOCKS_PER_SEC;
+    
+    cout << "-------------------------" << endl;
+    cout << "--------  FLOAT  --------" << endl;
+    cout << "-------------------------" << endl;
+    cout << "Total time with float 500x500 metrix - sequental: " << time << "s." << endl;
+}
+
+void sequental_float_medium(int P){
+    clock_t start = clock(); // start
+
+    vector<vector<float>> A(P, vector<float>(P));
+    vector<vector<float>> B(P, vector<float>(P));
+    vector<vector<float>> C(P, vector<float>(P));
+
+    for (int i = 0; i < P; i++) {
+        for (int j = 0; j < P; j++) {
+            A[i][j] = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
+            B[i][j] = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
+        }
+    }
+
+    for (int i = 0; i < P; i++) {
+        for (int j = 0; j < P; j++) {
+            for (int k = 0; k < P; k++) {
+                C[i][j] += A[i][k] * B[k][j];
+            }
+        }
+    }
+    
+    clock_t end = clock(); // stop
+    
+    double time = double(end - start) / CLOCKS_PER_SEC;
+    cout << "Total time with float 1000x1000 metrix - sequental: " << time << "s." << endl;
+}
+
+void sequental_float_hard(int N){
+    clock_t start = clock(); // start
+
+    vector<vector<float>> A(N, vector<float>(N));
+    vector<vector<float>> B(N, vector<float>(N));
+    vector<vector<float>> C(N, vector<float>(N));
+
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++) {
+            A[i][j] = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
+            B[i][j] = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
+        }
+    }
+
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++) {
+            for (int k = 0; k < N; k++) {
+                C[i][j] += A[i][k] * B[k][j];
+            }
+        }
+    }
+    
+    clock_t end = clock(); // stop
+    
+    double time = double(end - start) / CLOCKS_PER_SEC;
+    cout << "Total time with float 2000x2000 metrix - sequental: " << time << "s." << endl;
+    cout << "================================" << endl;
+
 }
 
 int main() {
@@ -97,10 +195,13 @@ int main() {
     int P = 1000;
     int N = 2000;
 
+    sequental_int_low(O);
+    sequental_int_medium(P);
+    sequental_int_hard(N);
 
-    low(O);
-    medium(P);
-    hard(N);
+    sequental_float_low(O);
+    sequental_float_medium(P);
+    sequental_float_hard(N);
 
     return 0;
 }
